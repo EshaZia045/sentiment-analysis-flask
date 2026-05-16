@@ -34,10 +34,11 @@ Runs on CPU without GPU.
 ## Screenshots
 Here’s how the Sentiment Analysis web app looks:
 
-![Sentiment Analysis Screenshot](screen_sh/1.png)
-\
-![Sentiment Analysis Screenshot](screen_sh/2.png)
+![Sentiment Analysis Screenshot](/project_Image/pic1.png)
 
+![Sentiment Analysis Screenshot](/project_Image/pic2.png)
+
+![Sentiment Analysis Screenshot](/project_Image/pic3.png)
 
 
 
