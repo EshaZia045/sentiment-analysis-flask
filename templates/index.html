@@ -7,6 +7,17 @@
     <title>Sentiment Analysis</title>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        .sample {
+            display: block;
+        }
+
+        .active {
+            opacity: 0.7;
+            transform: scale(0.98);
+        }
+    </style>
 </head>
 
 <body>
@@ -15,34 +26,32 @@
 
         <h1>Sentiment Analysis</h1>
 
+        <!-- ONLY TWO BUTTONS -->
         <div class="examples">
 
-            <div class="positive-box">
+            <div id="posBtn" class="positive-box" onclick="filter('positive')">
                 😊 Positive Examples
             </div>
 
-            <div class="negative-box">
+            <div id="negBtn" class="negative-box" onclick="filter('negative')">
                 😡 Negative Examples
             </div>
 
         </div>
 
+        <!-- SAMPLE LIST -->
         <div class="samples">
 
-            <div class="sample positive">
-                I love this product!
-            </div>
+            <div class="sample positive">I love this product!</div>
+            <div class="sample positive">This is amazing!</div>
+            <div class="sample positive">Very good experience</div>
 
-            <div class="sample positive">
-                This is amazing!
-            </div>
-
-            <div class="sample positive">
-                Very good experience
-            </div>
+            <div class="sample negative">I hate this service</div>
+            <div class="sample negative">Very bad experience</div>
 
         </div>
 
+        <!-- FORM -->
         <form method="POST" action="/predict">
 
             <textarea name="text" placeholder="Enter your text for sentiment analysis..." required></textarea>
@@ -53,16 +62,16 @@
 
         </form>
 
+        <!-- RESULT -->
         {% if prediction %}
 
-        <div class="
-        result
-        {% if prediction == 'Positive' %}
-            positive-result
-        {% else %}
-            negative-result
-        {% endif %}
-    ">
+        <div class="result
+            {% if prediction|lower == 'positive' %}
+                positive-result
+            {% else %}
+                negative-result
+            {% endif %}
+        ">
 
             Predicted Sentiment: {{ prediction }}
 
@@ -75,6 +84,54 @@
         </footer>
 
     </div>
+
+    <!-- JS -->
+    <script>
+
+        let current = null;
+
+        function filter(type) {
+
+            let samples = document.querySelectorAll('.sample');
+
+            // toggle same button = show all
+            if (current === type) {
+                samples.forEach(s => s.style.display = "block");
+                current = null;
+                removeActive();
+                return;
+            }
+
+            current = type;
+
+            samples.forEach(s => {
+                if (s.classList.contains(type)) {
+                    s.style.display = "block";
+                } else {
+                    s.style.display = "none";
+                }
+            });
+
+            setActive(type);
+        }
+
+        function setActive(type) {
+            document.getElementById("posBtn").classList.remove("active");
+            document.getElementById("negBtn").classList.remove("active");
+
+            if (type === "positive") {
+                document.getElementById("posBtn").classList.add("active");
+            } else {
+                document.getElementById("negBtn").classList.add("active");
+            }
+        }
+
+        function removeActive() {
+            document.getElementById("posBtn").classList.remove("active");
+            document.getElementById("negBtn").classList.remove("active");
+        }
+
+    </script>
 
 </body>
 
